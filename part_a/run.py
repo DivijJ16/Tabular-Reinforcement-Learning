@@ -99,6 +99,7 @@ def run(args, visualize = True):
         rewards_all.append(rewards)
 
         if(visualize):
+            os.makedirs(output_dir, exist_ok=True)
             imageio.mimsave(os.path.join(output_dir, f"{i}.gif"), frames, duration=0.5, loop=0)
 
     return sum(rewards_all) /num_runs
