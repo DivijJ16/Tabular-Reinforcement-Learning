@@ -1,2 +1,0 @@
-python run.py --layout_file tests/1/layout.txt --prob_file tests/1/prob.txt --num_runs 10 --T 120 --output_dir ./outputs/1
-python run.py --layout_file tests/2/layout.txt --prob_file tests/2/prob.txt --num_runs 10 --T 900 --output_dir ./outputs/2
