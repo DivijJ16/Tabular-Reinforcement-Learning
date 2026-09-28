@@ -1,3 +1,4 @@
+
 from agent import Agent
 from env import TreasureHunt
 import argparse
@@ -79,7 +80,7 @@ def run(args, visualize = True):
         env = TreasureHunt(layout_file, prob_file)
 
         frames = []
-        rewards = 0
+        rewards = []
         steps = 0
 
         #the intial state
@@ -91,15 +92,18 @@ def run(args, visualize = True):
             state, reward, done = env.step(action)
 
             #get the frames and rewards
-            rewards = reward + env.df*rewards
+            rewards.append(reward)
             if(visualize):
                 frames.append(env.render())
             steps+=1
         
-        rewards_all.append(rewards)
+        dis_reward = 0 
+        rewards.reverse()
+        for r in rewards:
+            dis_reward = dis_reward*env.df + r
+        rewards_all.append(dis_reward)
 
         if(visualize):
-            os.makedirs(output_dir, exist_ok=True)
             imageio.mimsave(os.path.join(output_dir, f"{i}.gif"), frames, duration=0.5, loop=0)
 
     return sum(rewards_all) /num_runs

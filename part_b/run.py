@@ -1,4 +1,4 @@
-from ta_agents import Agent
+from agent import Agent
 from env import HighwayEnv
 import signal
 import argparse
@@ -71,7 +71,7 @@ def run(args, visualize = True):
         env = HighwayEnv()
 
         frames = []
-        rewards = 0
+        rewards = []
         steps = 0
 
         #the intial state
@@ -83,12 +83,16 @@ def run(args, visualize = True):
             state, reward, done = env.step(action)
 
             #get the frames and rewards
-            rewards = reward + df*rewards
+            rewards.append(reward)
             if(visualize):
                 frames.append(env.render())
             steps+=1
         
-        rewards_all.append(rewards)
+        dis_reward = 0
+        rewards.reverse()
+        for r in rewards:
+            dis_reward = dis_reward*df + r
+        rewards_all.append(dis_reward)
         if(visualize):
             imageio.mimsave(os.path.join(output_dir, f"{i}.gif"), frames, duration=0.7, loop=0)
 
